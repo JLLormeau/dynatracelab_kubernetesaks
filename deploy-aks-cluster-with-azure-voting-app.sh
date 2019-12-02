@@ -14,7 +14,7 @@ hostname=`hostname`
 ACR_ressource_group=acr$hostname
 ACR_name=acrname$hostname
 ACR_login_server=$ACR_name.azurecr.io
-AKS_ressource_group=akscluster
+AKS_ressource_group=akscluster$hostname
 #validate the variables
 echo "Variables"
 echo ""
