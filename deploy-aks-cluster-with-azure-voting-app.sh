@@ -65,7 +65,7 @@ kubectl apply -f azure-vote-all-in-one-redis.yaml
 echo -e "\n##### 18 - Wait until the application starts #####\n"
 IPCLUSTER=$(kubectl get service azure-vote-front| grep azure | cut -d" " -f 10)
 echo "IP cluster Kubernetes ="$IPCLUSTER
-while [ $IPCLUSTER = "<Pending>" ]
+while [ $IPCLUSTER = "<pending>" ]
 do
         sleep 5
         IPCLUSTER=$(kubectl get service azure-vote-front| grep azure | cut -d" " -f 10)
