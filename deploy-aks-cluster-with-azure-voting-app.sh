@@ -60,6 +60,17 @@ echo -e "\n##### 15 - verify the connection to your cluster with kubectl#####\n"
 kubectl get nodes
 echo -e "\n##### 16 - update the manifeste file#####\n"
 sed -i "s/microsoft\/azure-vote-front:v1/$ACR_login_server\/azure-vote-front:$user/" ./azure-vote-all-in-one-redis.yaml
-echo -e "\n##### 17 - Deploy the application and validate the deployment#####\n"
+echo -e "\n##### 17 - Deploy the application #####\n"
 kubectl apply -f azure-vote-all-in-one-redis.yaml
-kubectl get service azure-vote-front --watch
+echo -e "\n##### 18 - Wait until the application starts #####\n"
+IPCLUSTER=$(kubectl get service azure-vote-front| grep azure | cut -d" " -f 10)
+echo "IP cluster Kubernetes ="$IPCLUSTER
+while [ $IPCLUSTER = "<Pending>" ]
+do
+        sleep 5
+        IPCLUSTER=$(kubectl get service azure-vote-front| grep azure | cut -d" " -f 10)
+        echo "IP cluster Kubernetes ="$IPCLUSTER
+done
+echo "Your AKS Azure-Voting-App application is started, you can connect to :"
+echo "http://$IPCLUSTER"
+
