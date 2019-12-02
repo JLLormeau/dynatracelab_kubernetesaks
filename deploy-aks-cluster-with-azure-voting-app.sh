@@ -64,12 +64,12 @@ echo -e "\n##### 17 - Deploy the application #####\n"
 kubectl apply -f azure-vote-all-in-one-redis.yaml
 echo -e "\n##### 18 - Wait until the application starts #####\n"
 IPCLUSTER=$(kubectl get service azure-vote-front| grep azure | cut -d" " -f 10)
-echo "IP cluster Kubernetes ="$IPCLUSTER
+echo "EXTERNAL IP : "$IPCLUSTER
 while [ $IPCLUSTER = "<pending>" ]
 do
         sleep 5
         IPCLUSTER=$(kubectl get service azure-vote-front| grep azure | cut -d" " -f 10)
-        echo "IP cluster Kubernetes ="$IPCLUSTER
+        echo "EXTERNAL IP : "$IPCLUSTER
 done
 echo "Your AKS Azure-Voting-App application is started, you can connect to :"
 echo "http://$IPCLUSTER"
