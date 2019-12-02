@@ -2,14 +2,15 @@
 #set variables 
 
 #Connection to Azure with AZ CLI 
-echo -e "\n##### 1 - Install az cli #####\n"
+echo -e "\n##### 1 - Installation of AZ CLI #####\n"
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-echo "\n##### 2 - connection to Azure Subscription #####\n"
+echo "\n##### 2 - Connection to Azure Subscription #####\n"
 read -p "Azure account: " AZ_ACCOUNT && read -sp "Azure password: " AZ_PASS && echo && az login -u $AZ_ACCOUNT -p $AZ_PASS < /dev/null
 
-echo -e "\n##### 3 - Validate the variable #####\n"
+echo -e "\n##### 3 - Validation of the variables #####\n"
 user=`whoami`
 hostname=`hostname`
+VM_ressource_group=$hostname_$user
 ACR_ressource_group=acr$hostname
 ACR_name=acrname$hostname
 ACR_login_server=$ACR_name.azurecr.io
@@ -17,7 +18,7 @@ AKS_ressource_group=akscluster
 #validate the variables
 echo -e "Variables"
 echo ""
-echo -e "\nhostname="$hostname"\nuser="$user"\nAZ_ACCOUNT="$AZ_ACCOUNT"\nACR_ressource_group="$ACR_ressource_group"\nAKS_ressource_group="MC_$ACR_ressource_group"_"$AKS_ressource_group"_westeurope\n"
+echo -e "\nhostname="$hostname"\nuser="$user"\nAZ_ACCOUNT="$AZ_ACCOUNT"\nVM_ressource_group="$VM_ressource_group"\nACR_ressource_group="$ACR_ressource_group"\nAKS_ressource_group="MC_$ACR_ressource_group"_"$AKS_ressource_group"_westeurope\n"
 echo "continue (Y/N)"
 read Response
 if [ $Response = "N" ] || [ $Response = "n" ]
@@ -25,23 +26,23 @@ then
 	exit
 fi
 
-echo -e "\n##### 4 - Get the docker application Azure-Voting-App-Redis and start the application#####\n"
+echo -e "\n##### 4 - Get the docker application Azure-Voting-App-Redis and start the docker application#####\n"
 #git clone https://github.com/JLLormeau/dynatracelab_azure-voting-app-redis.git #already done from bitbuecket
 #cd dynatracelab_azure-voting-app-redis
 sudo docker-compose up -d
-echo -e "\n##### 5 - the image has been created locally, we can stop the docker application#####\n"
+echo -e "\n##### 5 - the image has been created locally, docker application is stopped#####\n"
 sudo docker-compose down
-echo -e "\n##### 6 - Create an Azure Container Registry and log in to the container registry#####\n"
+echo -e "\n##### 6 - Create an Azure Container Registry ACR and log in to the container registry#####\n"
 az group create --name $ACR_ressource_group --location westeurope
 az acr create --resource-group $ACR_ressource_group --name $ACR_name --sku Basic 
 az acr login --name $ACR_name
-echo -e "\n##### 7 - Tag your image azure-vote-front with the acrLoginServer and USER0X#####\n"
+echo -e "\n##### 7 - Tag your image azure-vote-front with the acrLoginServer and "$user"#####\n"
 docker tag azure-vote-front  $ACR_login_server/azure-vote-front:$user
 echo -e "\n##### 8 - Push  the docker image in registry ACR #####\n"
 docker push $ACR_login_server/azure-vote-front:$user
 echo -e "\n##### 9 - Create a service principal #####\n"
 Service_Principal=$(az ad sp create-for-rbac --skip-assignment)
-echo -e "\n##### 10 - Get the AppId, the Password and the ACRID#####\n"
+echo -e "\n##### 10 - Get the AppId, the Password and the ACRID #####\n"
 AppId=$(echo "$Service_Principal"|grep appId|cut -d '"' -f 4)
 Password=$(echo "$Service_Principal"|grep password|cut -d '"' -f 4)
 ACRID=$(az acr show --resource-group $ACR_ressource_group --name $ACR_name --query "id" --output tsv)
