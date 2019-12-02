@@ -32,7 +32,6 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: azure-vote-front
-  namespace: azure-vote-front
 spec:
   replicas: 1
   strategy:
