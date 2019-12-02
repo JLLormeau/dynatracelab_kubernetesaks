@@ -17,19 +17,13 @@ AKS_ressource_group=akscluster
 #validate the variables
 echo -e "Variables"
 echo ""
-echo -e "\nhostname="$hostname"\nuser="$user"\nAZ_ACCOUNT="$AZ_ACCOUNT"\nACR_ressource_group="$ACR_ressource_group"\nACR_login_server="$ACR_login_server"\nAKS_ressource_group="$AKS_ressource_group"\n"
-echo "validate (Y/N)"
+echo -e "\nhostname="$hostname"\nuser="$user"\nAZ_ACCOUNT="$AZ_ACCOUNT"\nACR_ressource_group="$ACR_ressource_group"\nAKS_ressource_group="MC_$ACR_ressource_group"_"$AKS_ressource_group"_westeurope\n"
+echo "continue (Y/N)"
 read Response
 if [ $Response = "N" ] || [ $Response = "n" ]
 then
-	echo "ACR_ressource_group"; read ACR_ressource_group
-	echo "ACR_name"; read ACR_name
-	echo "ACR_login_server"; read ACR_login_server
-	echo "AKS_ressource_group"; read AKS_ressource_group
+	exit
 fi
-
-
-
 
 echo -e "\n##### 4 - Get the docker application Azure-Voting-App-Redis and start the application#####\n"
 #git clone https://github.com/JLLormeau/dynatracelab_azure-voting-app-redis.git #already done from bitbuecket
