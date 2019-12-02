@@ -32,8 +32,8 @@ fi
 
 #connection to azure subscription
 #
-git clone https://github.com/JLLormeau/dynatracelab_azure-voting-app-redis.git
-cd dynatracelab_azure-voting-app-redis
+#git clone https://github.com/JLLormeau/dynatracelab_azure-voting-app-redis.git
+#cd dynatracelab_azure-voting-app-redis
 sudo docker-compose up -d
 sudo docker-compose down
 az group create --name $ACR_ressource_group --location westeurope
