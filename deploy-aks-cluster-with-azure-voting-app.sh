@@ -1,6 +1,7 @@
 #!/bin/bash
 #set variables 
 
+sudo apt-get install -qq git < /dev/null
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 read -p "Azure account: " AZ_ACCOUNT && read -sp "Azure password: " AZ_PASS && echo && az login -u $AZ_ACCOUNT -p $AZ_PASS < /dev/null
 
