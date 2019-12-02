@@ -50,7 +50,7 @@ ACRID=$(az acr show --resource-group $ACR_ressource_group --name $ACR_name --que
 sleep 120
 echo -e "\n##### 11 - Update the name of the Registry <acrName> with this of your instance <arcId>#####\n"
 az role assignment create --assignee $AppId --scope   "$ACRID" --role acrpull
-echo -e "\n##### 12 - UCreate the Kubernetes cluster#####\n"
+echo -e "\n##### 12 - Create the Kubernetes cluster#####\n"
 az aks create --resource-group $ACR_ressource_group --name $AKS_ressource_group  --node-count 1 --service-principal "$AppId" --client-secret "$Password" --generate-ssh-keys
 echo -e "\n##### 13 - Install Kubectl #####\n"
 sudo az aks install-cli
