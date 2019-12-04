@@ -10,7 +10,7 @@ read -p "Azure account: " AZ_ACCOUNT && read -sp "Azure password: " AZ_PASS && e
 echo -e "\n##### 3 - Validation of the variables #####\n"
 USER=`whoami`
 HOSTNAME=`hostname`
-VM_RESSOURCE_GROUP=$HOSTNAME"_"$USER
+VM_RESSOURCE_GROUP=$HOSTNAME
 ACR_RESSOURCE_GROUP=acr$HOSTNAME
 ACR_NAME=acrname$HOSTNAME
 ACR_LOGIN_SERVER=$ACR_NAME.azurecr.io
