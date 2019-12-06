@@ -4,7 +4,7 @@
 #Connection to Azure with AZ CLI 
 echo -e "\n##### 1 - Installation of AZ CLI #####\n"
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-echo "\n##### 2 - Connection to Azure Subscription #####\n"
+echo -e "\n##### 2 - Connection to Azure Subscription #####\n"
 read -p "Azure account: " AZ_ACCOUNT && read -sp "Azure password: " AZ_PASS && echo && az login -u $AZ_ACCOUNT -p $AZ_PASS < /dev/null
 
 echo -e "\n##### 3 - Validation of the variables #####\n"
