@@ -21,7 +21,7 @@ echo ""
 echo -e "\nHOSTNAME="$HOSTNAME"\nUSER="$USER"\nAZ_ACCOUNT="$AZ_ACCOUNT"\nVM_RESOURCE_GROUP="$VM_RESOURCE_GROUP"\nACR_RESOURCE_GROUP="$ACR_RESOURCE_GROUP"\nAKS_CLUSTER_NAME="$AKS_CLUSTER_NAME"\nAKS_RESOURCE_GROUP="MC_$ACR_RESOURCE_GROUP"_"$AKS_CLUSTER_NAME"_westeurope\n"
 echo "continue (Y/N)"
 read Response
-if [ $Response = "N" ] || [ $Response = "n" ]
+if [ $Response == "N" ] || [ $Response == "n" ]
 then
 	exit
 fi
