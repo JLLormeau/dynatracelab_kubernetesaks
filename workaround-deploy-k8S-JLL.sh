@@ -19,7 +19,7 @@ APPID=$(echo "$SERVICE_PRINCIPAL"|grep appId|cut -d '"' -f 4)
 PASSWORD=$(echo "$SERVICE_PRINCIPAL"|grep password|cut -d '"' -f 4)
 ACRID=$(az acr show --resource-group $ACR_RESOURCE_GROUP --name $ACR_NAME --query "id" --output tsv)
 #wait 2 minutes to be sure the resource exist
-sleep 120
+#sleep 120
 echo -e "\n##### 11 - Update the name of the Registry <acrName> with this of your instance <arcId>#####\n"
 az role assignment create --assignee $APPID --scope   "$ACRID" --role acrpull
 echo -e "\n##### 12 - Create the Kubernetes cluster#####\n"
