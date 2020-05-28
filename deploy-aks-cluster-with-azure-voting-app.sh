@@ -33,7 +33,7 @@ sudo docker-compose up -d
 echo -e "\n##### 5 - the image has been created locally, docker application is stopped#####\n"
 sudo docker-compose down
 echo -e "\n##### 6 - Create an Azure Container Registry ACR and log in to the container registry#####\n"
-az group create --name $ACR_RESOURCE_GROUP --location francecentral
+az group create --name $ACR_RESOURCE_GROUP --location uksouth
 az acr create --resource-group $ACR_RESOURCE_GROUP --name $ACR_NAME --sku Basic 
 az acr login --name $ACR_NAME
 echo -e "\n##### 7 - Tag your image azure-vote-front with the acrLoginServer and "$USER"#####\n"
