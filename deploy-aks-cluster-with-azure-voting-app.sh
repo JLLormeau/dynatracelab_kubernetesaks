@@ -15,15 +15,10 @@ ACR_RESOURCE_GROUP=acr$HOSTNAME
 ACR_NAME=acrname$HOSTNAME
 ACR_LOGIN_SERVER=$ACR_NAME.azurecr.io
 AKS_CLUSTER_NAME=akscluster
-#ZONE=francecentral
-ZONE=eastus
-#ZONE=westeurope
-#ZONE=northeurope
-#ZONE=uksouth
 #validate the variables
 echo -e "Variables"
 echo ""
-echo -e "\nHOSTNAME="$HOSTNAME"\nUSER="$USER"\nAZ_ACCOUNT="$AZ_ACCOUNT"\nVM_RESOURCE_GROUP="$VM_RESOURCE_GROUP"\nACR_RESOURCE_GROUP="$ACR_RESOURCE_GROUP"\nAKS_CLUSTER_NAME="$AKS_CLUSTER_NAME"\nAKS_RESOURCE_GROUP="MC_$ACR_RESOURCE_GROUP"_"$AKS_CLUSTER_NAME"_"$ZONE"\n"
+echo -e "\nHOSTNAME="$HOSTNAME"\nUSER="$USER"\nAZ_ACCOUNT="$AZ_ACCOUNT"\nVM_RESOURCE_GROUP="$VM_RESOURCE_GROUP"\nACR_RESOURCE_GROUP="$ACR_RESOURCE_GROUP"\nAKS_CLUSTER_NAME="$AKS_CLUSTER_NAME"\nAKS_RESOURCE_GROUP="MC_$ACR_RESOURCE_GROUP"_"$AKS_CLUSTER_NAME"_westeurope\n"
 echo "continue (Y/N)"
 read Response
 if [ $Response == "N" ] || [ $Response == "n" ]
@@ -38,7 +33,7 @@ sudo docker-compose up -d
 echo -e "\n##### 5 - the image has been created locally, docker application is stopped#####\n"
 sudo docker-compose down
 echo -e "\n##### 6 - Create an Azure Container Registry ACR and log in to the container registry#####\n"
-az group create --name $ACR_RESOURCE_GROUP --location $ZONE
+az group create --name $ACR_RESOURCE_GROUP --location francecentral
 az acr create --resource-group $ACR_RESOURCE_GROUP --name $ACR_NAME --sku Basic 
 az acr login --name $ACR_NAME
 echo -e "\n##### 7 - Tag your image azure-vote-front with the acrLoginServer and "$USER"#####\n"
