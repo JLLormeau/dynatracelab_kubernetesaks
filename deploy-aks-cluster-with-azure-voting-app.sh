@@ -1,5 +1,23 @@
 #!/bin/bash
 #set variables 
+#define the region
+echo "##### 0 - Choice your region"
+echo "  1)westeurope"
+echo "  1)northeurope"
+echo "  3)francecentral"
+echo "  4)uksouth"
+echo "  5)eastus"
+
+read n
+case $n in
+  1) REGION="westeurope";;
+  2) REGION="northeurope";;
+  3) REGION="francecentral";;
+  4) REGION="uksouth";;
+  5) REGION="eastus";;
+  *) echo "invalid option";;
+esac
+echo $REGION
 
 #Connection to Azure with AZ CLI 
 echo -e "\n##### 1 - Installation of AZ CLI #####\n"
@@ -18,10 +36,10 @@ AKS_CLUSTER_NAME=akscluster
 #validate the variables
 echo -e "Variables"
 echo ""
-echo -e "\nHOSTNAME="$HOSTNAME"\nUSER="$USER"\nAZ_ACCOUNT="$AZ_ACCOUNT"\nVM_RESOURCE_GROUP="$VM_RESOURCE_GROUP"\nACR_RESOURCE_GROUP="$ACR_RESOURCE_GROUP"\nAKS_CLUSTER_NAME="$AKS_CLUSTER_NAME"\nAKS_RESOURCE_GROUP="MC_$ACR_RESOURCE_GROUP"_"$AKS_CLUSTER_NAME"_westeurope\n"
+echo -e "\nHOSTNAME="$HOSTNAME"\nUSER="$USER"\nAZ_ACCOUNT="$AZ_ACCOUNT"\nVM_RESOURCE_GROUP="$VM_RESOURCE_GROUP"\nACR_RESOURCE_GROUP="$ACR_RESOURCE_GROUP"\nAKS_CLUSTER_NAME="$AKS_CLUSTER_NAME"\nAKS_RESOURCE_GROUP="MC_$ACR_RESOURCE_GROUP"_"$AKS_CLUSTER_NAME"_"$REGION
 echo "continue (Y/N)"
 read Response
-if [ $Response == "N" ] || [ $Response == "n" ]
+if [ $Response = "N" ] || [ $Response = "n" ]
 then
 	exit
 fi
@@ -33,7 +51,7 @@ sudo docker-compose up -d
 echo -e "\n##### 5 - the image has been created locally, docker application is stopped#####\n"
 sudo docker-compose down
 echo -e "\n##### 6 - Create an Azure Container Registry ACR and log in to the container registry#####\n"
-az group create --name $ACR_RESOURCE_GROUP --location eastus
+az group create --name $ACR_RESOURCE_GROUP --location "$REGION"
 az acr create --resource-group $ACR_RESOURCE_GROUP --name $ACR_NAME --sku Basic 
 az acr login --name $ACR_NAME
 echo -e "\n##### 7 - Tag your image azure-vote-front with the acrLoginServer and "$USER"#####\n"
@@ -46,6 +64,7 @@ echo -e "\n##### 10 - Get the APPID, the PASSWORD and the ACRID #####\n"
 APPID=$(echo "$SERVICE_PRINCIPAL"|grep appId|cut -d '"' -f 4)
 PASSWORD=$(echo "$SERVICE_PRINCIPAL"|grep password|cut -d '"' -f 4)
 ACRID=$(az acr show --resource-group $ACR_RESOURCE_GROUP --name $ACR_NAME --query "id" --output tsv)
+echo "$PASSWORD\n"
 #wait 2 minutes to be sure the resource exist
 sleep 120
 echo -e "\n##### 11 - Update the name of the Registry <acrName> with this of your instance <arcId>#####\n"
