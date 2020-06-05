@@ -24,9 +24,9 @@ echo -e "\n##### 1 - Installation of AZ CLI #####\n"
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 echo -e "\n##### 2 - Connection to Azure Subscription #####\n"
 #read -p "Azure account: " AZ_ACCOUNT && read -sp "Azure password: " AZ_PASS && echo && az login -u $AZ_ACCOUNT -p $AZ_PASS < /dev/null
-APPID="21769899-8256-4a6e-988e-924cb1fb6944"
-PASSWORD="72b62aaa-2137-40de-be1a-3d7aa6e1b163"
-TENANT="7099e1e8-a918-4da8-b546-5452f6db854c"
+APPID="XXXXXXXXXXXXXXXXXXXXX"
+PASSWORD="XXXXXXXXXXXXXXXXXXXXX"
+TENANT="XXXXXXXXXXXXXXXXXXXXX"
 az login --service-principal --username $APPID --password $PASSWORD --tenant $TENANT
 
 
