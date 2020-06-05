@@ -1,32 +1,17 @@
 #!/bin/bash
 #set variables 
 #define the region
-echo "##### 0 - Choice your region"
-echo "  1)westeurope"
-echo "  1)northeurope"
-echo "  3)francecentral"
-echo "  4)uksouth"
-echo "  5)eastus"
 
-read n
-case $n in
-  1) REGION="westeurope";;
-  2) REGION="northeurope";;
-  3) REGION="francecentral";;
-  4) REGION="uksouth";;
-  5) REGION="eastus";;
-  *) echo "invalid option";;
-esac
-echo $REGION
+REGION=$1
+APPID=$2
+PASSWORD=$3
+TENANT=$4
 
 #Connection to Azure with AZ CLI 
 echo -e "\n##### 1 - Installation of AZ CLI #####\n"
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 echo -e "\n##### 2 - Connection to Azure Subscription #####\n"
 #read -p "Azure account: " AZ_ACCOUNT && read -sp "Azure password: " AZ_PASS && echo && az login -u $AZ_ACCOUNT -p $AZ_PASS < /dev/null
-APPID=$1
-PASSWORD=$2
-TENANT=$3
 az login --service-principal --username $APPID --password $PASSWORD --tenant $TENANT
 
 
