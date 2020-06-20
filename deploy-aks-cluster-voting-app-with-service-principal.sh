@@ -49,7 +49,7 @@ echo -e "\n##### 6 - Create a resource group ACR #####\n"
 az group create --name $ACR_RESOURCE_GROUP --location "$REGION"
 ##create the script shell to delete the resource groups of this lab
 echo "##Training : "$ACR_RESOURCE_GROUP > $DELETE_FILE
-chmod +x delete_resourcegroup_labkubernetes.sh
+chmod +x $DELETE_FILE
 echo "echo "$ACR_RESOURCE_GROUP >> $DELETE_FILE
 echo "az group delete --name "$ACR_RESOURCE_GROUP" --y" >> $DELETE_FILE
 echo -e "\n##### 6 - Create an Azure Container Registry ACR and log in to the container registry#####\n"
