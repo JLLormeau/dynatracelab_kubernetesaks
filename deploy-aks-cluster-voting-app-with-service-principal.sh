@@ -27,8 +27,8 @@ ACR_RESOURCE_GROUP=acr$HOSTNAME
 ACR_NAME=acrname$HOSTNAME
 ACR_LOGIN_SERVER=$ACR_NAME.azurecr.io
 AKS_CLUSTER_NAME=akscluster
-DEPLOY_DYRECTORY=/home/dynatracelab_kubernetesaks
-DELETE_FILE=$DEPLOY_DYRECTORY/delete_resourcegroup_labkubernetes.sh
+DEPLOY_DIRECTORY=/home/dynatracelab_kubernetesaks
+DELETE_FILE=$DEPLOY_DIRECTORY/delete_resourcegroup_labkubernetes.sh
 #validate the variables
 echo -e "Variables"
 echo ""
@@ -41,7 +41,7 @@ echo -e "\nHOSTNAME="$HOSTNAME"\nUSER="$USER"\nAZ_ACCOUNT="$AZ_ACCOUNT"\nVM_RESO
 #fi
 
 echo -e "\n##### 4 - Get the docker application Azure-Voting-App-Redis and start the docker application#####\n"
-cd $DEPLOY_DYRECTORY
+cd $DEPLOY_DIRECTORY
 sudo docker-compose up -d
 echo -e "\n##### 5 - the image has been created locally, docker application is stopped#####\n"
 sudo docker-compose down
@@ -96,5 +96,3 @@ do
 done
 echo "Your AKS Azure-Voting-App application is started, you can connect to :"
 echo "http://$IPCLUSTER"
-kubectl get service azure-vote-front
-kubectl get service pods
