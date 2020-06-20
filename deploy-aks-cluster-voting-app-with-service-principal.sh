@@ -1,11 +1,15 @@
 #!/bin/bash
 #set variables 
-#define the region
+APPID=$1
+PASSWORD=$2
+TENANT=$3
 
-REGION=$1
-APPID=$2
-PASSWORD=$3
-TENANT=$4
+#define the region if odd  eastus, if even eastus2
+if $( printf `hostname` | tail -c 1 | fgrep -wq -e 0 -e 2 -e 4 -e 6 -e 8) ; then
+    REGION="eastus2"
+else
+	REGION="eastus"
+fi
 
 #Connection to Azure with AZ CLI 
 echo -e "\n##### 1 - Installation of AZ CLI #####\n"
