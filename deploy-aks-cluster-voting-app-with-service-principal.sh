@@ -28,7 +28,7 @@ ACR_NAME=acrname$HOSTNAME
 ACR_LOGIN_SERVER=$ACR_NAME.azurecr.io
 AKS_CLUSTER_NAME=akscluster
 DEPLOY_DIRECTORY=/home/dynatracelab_kubernetesaks
-DELETE_FILE=delete_resourcegroup_labkubernetes.sh
+DELETE_FILE=$DEPLOY_DIRECTORY/delete_resourcegroup_labkubernetes.sh
 #validate the variables
 echo -e "Variables"
 echo ""
