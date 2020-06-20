@@ -27,6 +27,8 @@ ACR_RESOURCE_GROUP=acr$HOSTNAME
 ACR_NAME=acrname$HOSTNAME
 ACR_LOGIN_SERVER=$ACR_NAME.azurecr.io
 AKS_CLUSTER_NAME=akscluster
+DEPLOY_DYRECTORY=/home/dynatracelab_kubernetesaks
+DELETE_FILE=$DEPLOY_DYRECTORY/delete_resourcegroup_labkubernetes.sh
 #validate the variables
 echo -e "Variables"
 echo ""
@@ -39,18 +41,17 @@ echo -e "\nHOSTNAME="$HOSTNAME"\nUSER="$USER"\nAZ_ACCOUNT="$AZ_ACCOUNT"\nVM_RESO
 #fi
 
 echo -e "\n##### 4 - Get the docker application Azure-Voting-App-Redis and start the docker application#####\n"
-#git clone https://github.com/JLLormeau/dynatracelab_azure-voting-app-redis.git #already done from bitbuecket
-#cd dynatracelab_azure-voting-app-redis
+cd $DEPLOY_DYRECTORY
 sudo docker-compose up -d
 echo -e "\n##### 5 - the image has been created locally, docker application is stopped#####\n"
 sudo docker-compose down
 echo -e "\n##### 6 - Create a resource group ACR #####\n"
 az group create --name $ACR_RESOURCE_GROUP --location "$REGION"
 ##create the script shell to delete the resource groups of this lab
-echo "##Training : "$ACR_RESOURCE_GROUP > delete_resourcegroup_labkubernetes.sh
+echo "##Training : "$ACR_RESOURCE_GROUP > $DELETE_FILE
 chmod +x delete_resourcegroup_labkubernetes.sh
-echo "echo "$ACR_RESOURCE_GROUP >> delete_resourcegroup_labkubernetes.sh
-echo "az group delete --name "$ACR_RESOURCE_GROUP" --y" >> delete_resourcegroup_labkubernetes.sh
+echo "echo "$ACR_RESOURCE_GROUP >> $DELETE_FILE
+echo "az group delete --name "$ACR_RESOURCE_GROUP" --y" >> $DELETE_FILE
 echo -e "\n##### 6 - Create an Azure Container Registry ACR and log in to the container registry#####\n"
 az acr create --resource-group $ACR_RESOURCE_GROUP --name $ACR_NAME --sku Basic 
 az acr login --name $ACR_NAME
@@ -72,8 +73,8 @@ ACRID=$(az acr show --resource-group $ACR_RESOURCE_GROUP --name $ACR_NAME --quer
 echo -e "\n##### 12 - Create the Kubernetes cluster#####\n"
 az aks create --resource-group $ACR_RESOURCE_GROUP --name $AKS_CLUSTER_NAME  --node-count 1 --service-principal "$APPID" --client-secret "$PASSWORD" --generate-ssh-keys
 ##create the script shell to delete the resource groups of this lab
-echo "echo MC_"$ACR_RESOURCE_GROUP"_"$AKS_CLUSTER_NAME"_"$REGION >> delete_resourcegroup_labkubernetes.sh
-echo "az group delete --name MC_"$ACR_RESOURCE_GROUP"_"$AKS_CLUSTER_NAME"_"$REGION" --y" >> delete_resourcegroup_labkubernetes.sh
+echo "echo MC_"$ACR_RESOURCE_GROUP"_"$AKS_CLUSTER_NAME"_"$REGION >> $DELETE_FILE
+echo "az group delete --name MC_"$ACR_RESOURCE_GROUP"_"$AKS_CLUSTER_NAME"_"$REGION" --y" >> $DELETE_FILE
 echo -e "\n##### 13 - Install Kubectl #####\n"
 sudo az aks install-cli
 echo -e "\n##### 14 - Log to the cluster with kubectl#####\n"
