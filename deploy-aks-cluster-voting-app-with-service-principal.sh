@@ -95,3 +95,5 @@ do
 done
 echo "Your AKS Azure-Voting-App application is started, you can connect to :"
 echo "http://$IPCLUSTER"
+kubectl get service azure-vote-front
+kubectl get service pods
