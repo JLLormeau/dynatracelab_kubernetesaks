@@ -6,7 +6,9 @@
 APPID=$1
 PASSWORD=$2
 TENANT=$3
-
+TIME=`date +%Y%m%d%H%M%S`
+log=deploy-aks-cluster-voting-app-with-service-principa-$TIME.log
+{
 #test APPID, PASSWORD and TENANT not empty
 if [ -z "$APPID" ] || [ -z "$PASSWORD" ] || [ -z "$TENANT" ];
 	then APPLY="N";APPID="APPID";PASSWORD="PASSWORD";TENANT="TENANT" 
@@ -16,14 +18,21 @@ while [ "$APPLY" !=  "Y" ]
 do
         clear
         echo "CONFIGURE your Service Principal from your Azure Subscription"
-		echo "####  to create a Service Principal, open Azure Cli and entry the az command"
-		echo "####  \"az ad sp create-for-rbac --name MyServicePrincipalName\""
-		echo "####  more information here : https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest"
+		echo "####  to create a Service Principal, open your Azure Cli and entry the az command"
+		echo "####  \"az ad sp create-for-rbac --name MyServicePrincipalNameforLabKube\""
+		echo "####  more information on the Service Principal  : https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli"
+		echo "####  you can use the same Service Principal for all the lab environment"
+		echo "####  more information on Azure Vote App : https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-prepare-app"
+		echo "####"
+		echo "####  silent mode installation :"
+		echo "####  \"/bin/sh deploy-aks-cluster-voting-app-with-service-principal.sh "$APPID" "$PASSWORD" "$TENANT"\""
+		echo "####"
 		echo ""
 		echo ""
         echo "1) APPID(Serveice Principal)                     ="$APPID
         echo "2) PASSWORD (Serveice Principal)                 ="$PASSWORD
         echo "3) TENANT (Serveice Principal)                   ="$TENANT
+		echo "A) Apply configuration and deploy the Kubernetes Azure Vote App on your Azure Subscription" 
         echo ""
         sleep 1
         read  -p "Input Selection (1, 2, 3 or A): " reponse
@@ -133,3 +142,4 @@ do
 done
 echo "Your AKS Azure-Voting-App application is started, you can connect to :"
 echo "http://$IPCLUSTER"
+} | tee $log
