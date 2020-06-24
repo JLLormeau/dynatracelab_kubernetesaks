@@ -1,8 +1,45 @@
 #!/bin/bash
+#design by JLLormeau Dynatrace
+
+
 #set variables 
 APPID=$1
 PASSWORD=$2
 TENANT=$3
+
+#test APPID, PASSWORD and TENANT not empty
+if [ -z "$APPID" ] || [ -z "$PASSWORD" ] || [ -z "$TENANT" ];
+	then APPLY="N";APPID="APPID";PASSWORD="PASSWORD";TENANT="TENANT" 
+	else APPLY="Y";fi
+
+while [ "$APPLY" !=  "Y" ]
+do
+        clear
+        echo "CONFIGURE your Service Principal from your Azure Subscription"
+		echo "####  to create a Service Principal, open Azure Cli and entry the az command"
+		echo "####  \"az ad sp create-for-rbac --name MyServicePrincipalName\""
+		echo "####  more information here : https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest"
+		echo ""
+		echo ""
+        echo "1) APPID(Serveice Principal)                     ="$APPID
+        echo "2) PASSWORD (Serveice Principal)                 ="$PASSWORD
+        echo "3) TENANT (Serveice Principal)                   ="$TENANT
+        echo ""
+        sleep 1
+        read  -p "Input Selection (1, 2, 3 or A): " reponse
+
+        case "$reponse" in
+                "1") read  -p "1) APPID(Serveice Principal)   " APPID
+                ;;
+                "2") read  -p "2) PASSWORD (Serveice Principal)   " PASSWORD
+                ;;
+                "3") read  -p "3) TENANT (Serveice Principal)   " TENANT
+                ;;
+               "A") APPLY="Y"
+        esac
+done
+
+
 
 #define the region if odd  eastus, if even eastus2
 if $( printf `hostname` | tail -c 1 | fgrep -wq -e 0 -e 2 -e 4 -e 6 -e 8) ; then
