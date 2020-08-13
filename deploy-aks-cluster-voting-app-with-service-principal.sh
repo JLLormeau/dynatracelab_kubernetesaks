@@ -99,7 +99,7 @@ chmod +x $DELETE_FILE
 echo "echo "$ACR_RESOURCE_GROUP >> $DELETE_FILE
 echo "az group delete --name "$ACR_RESOURCE_GROUP" --y" >> $DELETE_FILE
 echo -e "\n##### 6 - Create an Azure Container Registry ACR and log in to the container registry#####\n"
-az acr create --resource-group $ACR_RESOURCE_GROUP --name $ACR_NAME --sku Free 
+az acr create --resource-group $ACR_RESOURCE_GROUP --name $ACR_NAME --sku Basic 
 az acr login --name $ACR_NAME
 echo -e "\n##### 7 - Tag your image azure-vote-front with the acrLoginServer and "$USER"#####\n"
 docker tag azure-vote-front  $ACR_LOGIN_SERVER/azure-vote-front:$USER
